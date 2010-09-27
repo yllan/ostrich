@@ -149,7 +149,14 @@ object AdminHttpServiceSpec extends Specification with Mockito {
     }
 
     "fetch static files" in {
+      Stats.clearAll()
+      new Socket("localhost", PORT) must throwA[SocketException] // nothing listening yet
+      service = spy(new AdminHttpService(config, new RuntimeEnvironment(getClass)))
+      service.start()
+      
       get("/static/drawgraph.js") must include("drawChart")
+        
+      service.shutdown()
     }
 
     "provide stats" in {
@@ -158,7 +165,7 @@ object AdminHttpServiceSpec extends Specification with Mockito {
 
       "in json" in {
         Stats.clearAll()
-        new Socket("localhost", PORT) must throwA[SocketException] // nothing listening yet
+        // new Socket("localhost", PORT) must throwA[SocketException] // nothing listening yet
         service = spy(new AdminHttpService(config, new RuntimeEnvironment(getClass)))
         service.start()
 
