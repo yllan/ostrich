@@ -115,7 +115,7 @@ abstract class CgiRequestHandler extends CustomHttpHandler {
 
 class CommandRequestHandler(commandHandler: CommandHandler) extends CgiRequestHandler {
   def handle(exchange: HttpExchange, path: List[String], parameters: List[List[String]]) {
-    val command = path.last.split('.').first
+    val command = path.last.split('.').head
     val format: Format = path.last.split('.').last match {
       case "txt" => Format.PlainText
       case _ => Format.Json
