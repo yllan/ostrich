@@ -79,7 +79,6 @@ object StatsSpec extends Specification {
       "ignore negative timings" in {
         Stats.addTiming("test", 1)
         Stats.addTiming("test", -1)
-        Stats.addTiming("test", scala.Int.MaxValue)
         val test = Stats.getTiming("test")
         test.get(true) mustEqual new TimingStat(1, 1, 1, Some(Histogram(1)), 1.0, 0.0)
       }

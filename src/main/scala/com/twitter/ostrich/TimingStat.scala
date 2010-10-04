@@ -51,8 +51,8 @@ class TimingStat(_count: Int, _maximum: Int, _minimum: Int, _histogram: Option[H
 
   def toJson() = {
     val out: Map[String, Any] = toMap ++ (histogram match {
-      case None => immutable.Map.empty[String, Any]
-      case Some(h) => immutable.Map[String, Any]("histogram" -> h.get(false))
+      case None => Map.empty[String, Any]
+      case Some(h) => Map[String, Any]("histogram" -> h.get(false))
     })
     Json.build(out).toString
   }
@@ -70,14 +70,14 @@ class TimingStat(_count: Int, _maximum: Int, _minimum: Int, _histogram: Option[H
   }
 
   private def toMapWithoutHistogram = {
-    immutable.Map[String, Long]("count" -> count, "maximum" -> maximum, "minimum" -> minimum,
+    Map[String, Long]("count" -> count, "maximum" -> maximum, "minimum" -> minimum,
                                 "average" -> average, "standard_deviation" -> standardDeviation.toLong)
   }
 
-  def toMap: immutable.Map[String, Long] = {
+  def toMap: Map[String, Long] = {
     toMapWithoutHistogram ++ (histogram match {
-      case None => immutable.Map.empty[String, Long]
-      case Some(h) => immutable.Map[String, Long]("p25" -> h.getPercentile(0.25),
+      case None => Map.empty[String, Long]
+      case Some(h) => Map[String, Long]("p25" -> h.getPercentile(0.25),
                                                   "p50" -> h.getPercentile(0.5),
                                                   "p75" -> h.getPercentile(0.75),
                                                   "p90" -> h.getPercentile(0.9),

@@ -32,7 +32,8 @@ class JsonStatsLogger(val logger: Logger, val period: Duration)
 
   def periodic() {
     val statMap = collection.stats(true) ++
-      immutable.Map("jvm" -> Stats.getJvmStats(), "gauges" -> Stats.getGaugeStats(true))
-    logger.info(Json.build(immutable.Map(statMap.toSeq: _*)).toString)
+      Map("jvm" -> Stats.getJvmStats(), "gauges" -> Stats.getGaugeStats(true))
+    val rv = Map(statMap.toSeq: _*)
+    logger.info(Json.build(rv).toString)
   }
 }

@@ -104,7 +104,7 @@ trait StatsProvider {
    * encoding into JSON or XML, or flattening into text.
    */
   def stats(reset: Boolean): Map[String, Map[String, Any]] = {
-    immutable.Map("counters" -> getCounterStats(reset), "timings" -> getTimingStats(reset))
+    Map("counters" -> getCounterStats(reset), "timings" -> getTimingStats(reset))
   }
 
   /**
@@ -121,7 +121,7 @@ object DevNullStats extends StatsProvider {
   def addTiming(name: String, duration: Int) = 0
   def addTiming(name: String, timingStat: TimingStat) = 0
   def incr(name: String, count: Int): Long = count.toLong
-  def getCounterStats(reset: Boolean) = immutable.Map.empty
-  def getTimingStats(reset: Boolean) = immutable.Map.empty
+  def getCounterStats(reset: Boolean) = Map.empty
+  def getTimingStats(reset: Boolean) = Map.empty
   def clearAll() = ()
 }

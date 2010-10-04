@@ -49,7 +49,7 @@ class CommandHandler(runtime: RuntimeEnvironment) {
         // force it into a map because some json clients expect the top-level object to be a map.
         Json.build(rv match {
           case x: Map[_, _] => x
-          case _ => immutable.Map("response" -> rv)
+          case _ => Map("response" -> rv)
         }).toString + "\n"
     }
   }
@@ -78,7 +78,7 @@ class CommandHandler(runtime: RuntimeEnvironment) {
         Stats.stats(reset)
       case "server_info" =>
         val mxRuntime = ManagementFactory.getRuntimeMXBean()
-        immutable.Map("name" -> runtime.jarName, "version" -> runtime.jarVersion,
+        Map("name" -> runtime.jarName, "version" -> runtime.jarVersion,
                       "build" -> runtime.jarBuild, "build_revision" -> runtime.jarBuildRevision,
                       "start_time" -> (new Date(mxRuntime.getStartTime())).toString,
                       "uptime" -> mxRuntime.getUptime())
@@ -91,12 +91,12 @@ class CommandHandler(runtime: RuntimeEnvironment) {
 
   private def getThreadStacks(): Map[String, Map[String, Map[String, Any]]] = {
     val stacks = JavaConversions.asMap(Thread.getAllStackTraces()).map { case (thread, stack) =>
-      (thread.getId().toString, immutable.Map("thread" -> thread.getName(),
+      (thread.getId().toString, Map("thread" -> thread.getName(),
                                               "daemon" -> thread.isDaemon(),
                                               "state" -> thread.getState(),
                                               "priority" -> thread.getPriority(),
                                               "stack" -> stack.toSeq.map(_.toString)))
     }.toSeq
-    immutable.Map("threads" -> immutable.Map(stacks: _*))
+    Map("threads" -> Map(stacks: _*))
   }
 }
